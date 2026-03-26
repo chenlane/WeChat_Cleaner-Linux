@@ -42,11 +42,11 @@
   - 代码位置 [gui.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/gui.py)
 - CLI 支持：无需图形环境即可批量扫描与清理
   - 代码位置 [cli.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/cli.py)
-- 可选增强模式（默认关闭，按需开启，结果默认不自动清理）：
-  - 图片：感知哈希（dHash）识别“视觉相同但编码不同”的重复图片
-  - PDF：忽略常见 metadata（CreationDate/ModDate/Producer 等）后的归一哈希
-  - Office：对 docx/xlsx/pptx 进行结构归一（忽略 docProps 等）以提升“语义重复”识别率
-  - 压缩包：对 zip/tar 等归档内容进行归一哈希（忽略文件顺序等差异）
+ - 可选增强模式（默认关闭，按需开启，结果默认不自动清理）：
+   - 图片：感知哈希（dHash）识别“视觉相同但编码不同”的重复图片
+   - PDF：忽略常见 metadata（CreationDate/ModDate/Producer 等）后的归一哈希
+   - Office：对 docx/xlsx/pptx 进行结构归一（忽略 docProps 等）以提升“语义重复”识别率
+   - 压缩包：对 zip/tar 等归档内容进行归一哈希（忽略文件顺序等差异）
 
 ## 技术栈
 - 语言：Python 3.8+
@@ -116,10 +116,10 @@ python3 main.py --cli /path/to/wechat/dir --replace-symlink -y
   1. 文件名是否带 `(1)`, `(2)` 等后缀（优先保留不带后缀）
   2. 修改时间（优先保留最近修改）
   3. 文件名长度（较短的优先）
-- 硬链接与节省空间：
-  - 若重复项实际是硬链接（同 inode），删除其中一个“入口”通常不会释放空间；本工具会在 GUI 中标注并修正估算
-- 近似重复（可选增强，默认不自动清理）：
-  - 这些结果仅作为人工参考，建议先预览确认再手工处理
+ - 硬链接与节省空间：
+   - 若重复项实际是硬链接（同 inode），删除其中一个“入口”通常不会释放空间；本工具会在 GUI 中标注并修正估算
+ - 近似重复（可选增强，默认不自动清理）：
+   - 这些结果仅作为人工参考，建议先预览确认再手工处理
 
 ## 权限与安全
 - 删除操作仅“移至系统回收站”，可在回收站恢复
