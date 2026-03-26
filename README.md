@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 # WxCleaner-Linux
 
 一款专为 Linux 环境设计的微信重复文件清理工具。通过“文件大小 → 头部哈希 → 全量哈希”的三级筛选策略，极速且准确地识别重复文件；内置现代化 GUI（PyQt6）与 CLI 双模式，支持可视化预览、安全删除（移至回收站）与权限修复。
+=======
+# WeChat_Cleaner-Linux
+
+一款专为 Linux 环境设计的微信重复文件清理工具。通过“文件大小 → 采样哈希（首尾采样）→ 全量哈希”的三级筛选策略，极速且准确地识别重复文件；内置现代化 GUI（PyQt6）与 CLI 双模式，支持可视化预览、安全清理（移至回收站）、权限自愈、硬链接识别与非删除去重（替换为硬链接/软链接）。
+>>>>>>> b1a2bad (feat: PyQt6 双视图（严格/近似）、Ctrl/Shift 多选、首尾采样并行哈希、硬链接识别、压缩包/PDF/Office近似模式、失败分类、README 更新)
 
 ## 目录
 - 项目简介
@@ -28,6 +34,7 @@
 
 ## 核心特性
 - 极速识别：三级去重策略，确保 100% 内容一致才判定为重复
+<<<<<<< HEAD
   - 基于大小分组 → 头部哈希（默认 4KB）→ 全量哈希（MD5）
   - 参考实现见 [core.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/core.py)
 - 智能保留：自动优先保留“无后缀且最近修改”的版本（避免误删你刚编辑过的原件）
@@ -39,13 +46,38 @@
   - 代码位置 [gui.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/gui.py)
 - CLI 支持：无需图形环境即可批量扫描与清理
   - 代码位置 [cli.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/cli.py)
+=======
+  - 基于大小分组 → 采样哈希（默认首 4KB + 尾 4KB）→ 全量哈希（MD5）
+  - 采样阶段显著减少无效全量哈希次数；全量哈希阶段保证严格重复的准确性
+  - 参考实现见 [core.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/core.py)
+- 智能保留：自动优先保留“无后缀且最近修改”的版本（避免误删你刚编辑过的原件）
+- 并行扫描：哈希计算支持线程池并行，并提供 I/O 并发阈值避免磁盘抖动（GUI 可选）
+- 硬链接识别：识别 inode/hardlink，修正“可节省空间”估算，并在 GUI 列表中标注
+- 安全清理：使用系统回收站（send2trash），支持“只读文件”权限自动修复后再清理
+  - 参考实现见 [gui.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/gui.py)、[cli.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/cli.py)
+- 非删除去重：可将重复项替换为硬链接/软链接，保留“文件入口”同时去冗余（GUI 右键菜单 + CLI 可选参数）
+- 现代化 GUI：采用 PyQt6 与 Fusion 风格，字体抗锯齿，颜色对比度舒适
+  - 支持双击预览（系统默认应用）与右键菜单（打开文件、打开所在文件夹、切换保留/删除、替换为硬链接/软链接）
+  - 代码位置 [gui.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/gui.py)
+- CLI 支持：无需图形环境即可批量扫描与清理
+  - 代码位置 [cli.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/cli.py)
+ - 可选增强模式（默认关闭，按需开启，结果默认不自动清理）：
+   - 图片：感知哈希（dHash）识别“视觉相同但编码不同”的重复图片
+   - PDF：忽略常见 metadata（CreationDate/ModDate/Producer 等）后的归一哈希
+   - Office：对 docx/xlsx/pptx 进行结构归一（忽略 docProps 等）以提升“语义重复”识别率
+   - 压缩包：对 zip/tar 等归档内容进行归一哈希（忽略文件顺序等差异）
+>>>>>>> b1a2bad (feat: PyQt6 双视图（严格/近似）、Ctrl/Shift 多选、首尾采样并行哈希、硬链接识别、压缩包/PDF/Office近似模式、失败分类、README 更新)
 
 ## 技术栈
 - 语言：Python 3.8+
 - GUI：PyQt6（Fusion 风格，完美抗锯齿）
 - 核心库：
   - send2trash（跨平台移至回收站）
+<<<<<<< HEAD
   - Pillow（图像库，后续预览扩展可用）
+=======
+  - Pillow（用于图片感知哈希）
+>>>>>>> b1a2bad (feat: PyQt6 双视图（严格/近似）、Ctrl/Shift 多选、首尾采样并行哈希、硬链接识别、压缩包/PDF/Office近似模式、失败分类、README 更新)
   - tqdm（命令行进度，可按需使用）
 
 依赖文件：[requirements.txt](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/requirements.txt)
@@ -70,10 +102,21 @@ python3 main.py --cli /path/to/wechat/dir -y
 ### GUI 图形界面
 - 打开程序后，点击“浏览”选择微信文件存储目录（示例：`~/Documents/xwechat_files/.../msg/file/`）
 - 点击“开始扫描”，等待进度完成
+<<<<<<< HEAD
 - 在列表中：
   - 绿色为“保留”，红色为“删除”
   - 双击任意条目即可用系统默认应用预览文件
   - 右键菜单可执行“打开文件”、“打开所在文件夹”、“设为保留/删除”
+=======
+- 在“严格重复 / 近似重复”两个视图中：
+  - 绿色为“保留”，红色为“删除”
+  - 双击任意条目即可用系统默认应用预览文件
+  - 支持 Ctrl/Shift + 鼠标单击进行批量选择（用于右键菜单批处理）
+  - 右键菜单可执行“打开文件”、“打开所在文件夹”、“加入/移除清理”、“移至回收站（仅所选）”
+  - 严格重复中，重复项支持“替换为硬链接/软链接”
+  - “标记”列会提示近似重复/硬链接等信息
+  - 近似重复默认不自动加入清理列表，可通过多选 + 右键“加入清理列表（设为删除）”，或直接“移至回收站（仅所选）”
+>>>>>>> b1a2bad (feat: PyQt6 双视图（严格/近似）、Ctrl/Shift 多选、首尾采样并行哈希、硬链接识别、压缩包/PDF/Office近似模式、失败分类、README 更新)
 - 点击“移至回收站”，执行安全删除（支持只读文件自动修复权限）
 
 ### CLI 命令行
@@ -86,6 +129,19 @@ python3 main.py --cli /path/to/wechat/dir
 
 # 静默执行，直接进入回收站
 python3 main.py --cli /path/to/wechat/dir -y
+<<<<<<< HEAD
+=======
+
+# 启用可选增强模式（只报告，不会自动清理）
+python3 main.py --cli /path/to/wechat/dir --perceptual-images
+python3 main.py --cli /path/to/wechat/dir --normalize-pdf
+python3 main.py --cli /path/to/wechat/dir --normalize-office
+python3 main.py --cli /path/to/wechat/dir --normalize-archive
+
+# 非删除去重：替换为硬链接/软链接（会先将原文件移入回收站，再用链接占位）
+python3 main.py --cli /path/to/wechat/dir --replace-hardlink -y
+python3 main.py --cli /path/to/wechat/dir --replace-symlink -y
+>>>>>>> b1a2bad (feat: PyQt6 双视图（严格/近似）、Ctrl/Shift 多选、首尾采样并行哈希、硬链接识别、压缩包/PDF/Office近似模式、失败分类、README 更新)
 ```
 
 ## 高级能力
@@ -94,11 +150,22 @@ python3 main.py --cli /path/to/wechat/dir -y
   1. 文件名是否带 `(1)`, `(2)` 等后缀（优先保留不带后缀）
   2. 修改时间（优先保留最近修改）
   3. 文件名长度（较短的优先）
+<<<<<<< HEAD
+=======
+ - 硬链接与节省空间：
+   - 若重复项实际是硬链接（同 inode），删除其中一个“入口”通常不会释放空间；本工具会在 GUI 中标注并修正估算
+ - 近似重复（可选增强，默认不自动清理）：
+   - 这些结果仅作为人工参考，建议先预览确认再手工处理
+>>>>>>> b1a2bad (feat: PyQt6 双视图（严格/近似）、Ctrl/Shift 多选、首尾采样并行哈希、硬链接识别、压缩包/PDF/Office近似模式、失败分类、README 更新)
 
 ## 权限与安全
 - 删除操作仅“移至系统回收站”，可在回收站恢复
 - 针对只读文件：自动执行 `chmod u+w` 后再移入回收站
+<<<<<<< HEAD
 - 若仍失败（例如不可变属性 `chattr +i` 或跨权限用户），GUI 会弹窗展示失败数量与示例路径
+=======
+- 若仍失败（例如不可变属性 `chattr +i`、目录无写权限或属主不匹配），GUI/CLI 会按类别汇总失败原因并给出建议
+>>>>>>> b1a2bad (feat: PyQt6 双视图（严格/近似）、Ctrl/Shift 多选、首尾采样并行哈希、硬链接识别、压缩包/PDF/Office近似模式、失败分类、README 更新)
 
 ## 常见问题
 - 双击无法预览 PDF？
@@ -111,6 +178,10 @@ python3 main.py --cli /path/to/wechat/dir -y
 - GUI 入口与交互：[gui.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/gui.py)
 - CLI 入口：[cli.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/cli.py)
 - 程序主入口：[main.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/main.py)
+<<<<<<< HEAD
+=======
+- 自检脚本：[test_features.py](file:///home/scholl_chen/claude_project_deepseek/wx_cleaner/test_features.py)
+>>>>>>> b1a2bad (feat: PyQt6 双视图（严格/近似）、Ctrl/Shift 多选、首尾采样并行哈希、硬链接识别、压缩包/PDF/Office近似模式、失败分类、README 更新)
 
 建议使用 Python 3.10+ 与现代 Linux 桌面环境进行开发与调试。
 
@@ -121,4 +192,7 @@ python3 main.py --cli /path/to/wechat/dir -y
 - 灵感与算法策略参考项目：  
   GitHub - [WxCleaner](https://github.com/yqxie1991/WxCleaner)  
   感谢原作者对“文件大小 → 头部哈希 → 全量哈希”三级筛选策略以及安全删除理念的贡献。
+<<<<<<< HEAD
 
+=======
+>>>>>>> b1a2bad (feat: PyQt6 双视图（严格/近似）、Ctrl/Shift 多选、首尾采样并行哈希、硬链接识别、压缩包/PDF/Office近似模式、失败分类、README 更新)
